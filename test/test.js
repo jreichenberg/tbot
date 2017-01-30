@@ -1,5 +1,5 @@
 var assert = require('chai').assert;
-var store = require('../src/store');
+var store = require('../src/data-store');
 var search = require('../src/search');
 
 var testQuotes = [
@@ -23,7 +23,7 @@ var testQuotes = [
 describe('store tests', function() {
 
   it('should fetch the data', function(done) {
-    store.refresh(function(data, tabletop) {
+    store.refreshData(function(data, tabletop) {
       assert.ok(data);
       done();
     });
@@ -31,11 +31,7 @@ describe('store tests', function() {
 
   it('should search the data', function() {
     search.index(testQuotes);
-    var results = search.search('enemy');
-    results.forEach(resultEntry => {
-      var subject = resultEntry.getSubject()
-      console.log(`${subject.getTerm()}, Matchscore: ${resultEntry.getMatchRelation()}`)
-    });
-    assert.lengthOf(results, 1);
+    var result = search.search('enemy');
+    assert.ok(result);
   });
 });
